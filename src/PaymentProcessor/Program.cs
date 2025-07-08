@@ -8,6 +8,13 @@ builder.AddRabbitMqEventBus("EventBus")
 builder.Services.AddOptions<PaymentOptions>()
     .BindConfiguration(nameof(PaymentOptions));
 
+builder.Services.AddSingleton<StripeProcessor>(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var apiKey = builder.Configuration["StripeKey"];
+    return new StripeProcessor(apiKey);
+});
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();

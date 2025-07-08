@@ -40,5 +40,10 @@ public static class Extensions
         }
 
         builder.Services.AddSingleton<ICatalogAI, CatalogAI>();
+
+        // Add TradeGecko services
+        builder.Services.AddOptions<TradeGeckoOptions>()
+            .BindConfiguration(TradeGeckoOptions.SectionName);
+        builder.Services.AddHttpClient<ITradeGeckoService, TradeGeckoService>();
     }
 }
